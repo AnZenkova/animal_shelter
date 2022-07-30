@@ -7,7 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 /**
- * Счётчик сообщений пользователя
+ * Модель счётчика сообщений пользователя
  */
 @Entity
 @Table(name = UserMessageCounter.TABLE_NAME)

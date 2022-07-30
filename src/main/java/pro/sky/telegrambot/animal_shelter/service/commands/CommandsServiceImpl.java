@@ -8,20 +8,10 @@ import org.springframework.stereotype.Service;
 public class CommandsServiceImpl implements CommandsService {
 
     public SendMessage start(Update update) {
-        return new SendMessage(
-                update.message().chat().id(),
-                getTextMessage(update.message().from().username())
-        );
-    }
-
-    /**
-     * Создание сообщения для отправки в чат
-     * @param username
-     * @return String
-     */
-    private String getTextMessage(String username) {
-        return "Привет, " + username + " !\n" +
+        String message = "Привет, " + update.message().from().username() + " !\n" +
                 "Я пока мало чем могу помочь, но я учусь!";
+
+        return new SendMessage(update.message().chat().id(), message);
     }
 
 }

@@ -28,29 +28,23 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
         this.userMessageCounterRepository = userMessageCounterRepository;
     }
 
-    /**
-     * Отправка Сообщения пользователю при помощи метода сервиса Start
-     * @param update
-     * @return
-     */
     public SendMessage handle(Update update) {
         User user = getUser(update.message());
-        increaseUserMessageCounter(user);
+        increaseUserMessageCounter(user.getId());
 
         if (update.message().text().equals("/start")) {
             return commandsService.start(update);
         }
 
-        return new SendMessage(
-                update.message().chat().id(),
-                "Я пока тебя не понимать"
-        );
+        return new SendMessage(update.message().chat().id(), "Я пока тебя не понимать");
     }
 
     /**
-     * Создание пользователя и добавление его в БД
-     * @param message
-     * @return user
+     * Поиск (или создание) пользователя в БД
+     *
+     * @param message Объект сообщения чата
+     *
+     * @return User
      */
     private User getUser(Message message) {
         User user = userRepository.findByChatIdEquals(message.chat().id());
@@ -72,16 +66,17 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
     }
 
     /**
-     * Создание счетчика сообщений пользователя и добавление его в БД
-     * @param user
-     * @return void
+     * Поиск (или создание) счётчика сообщений пользователя в БД
+     * Увеличение его на единицу
+     *
+     * @param userId Идентификатор пользователя
      */
-    private void increaseUserMessageCounter(User user) {
-        UserMessageCounter userMessageCounter = userMessageCounterRepository.findByUserIdEquals(user.getId());
+    private void increaseUserMessageCounter(Long userId) {
+        UserMessageCounter userMessageCounter = userMessageCounterRepository.findByUserIdEquals(userId);
 
         if (userMessageCounter == null) {
             userMessageCounter = new UserMessageCounter();
-            userMessageCounter.setUserId(user.getId());
+            userMessageCounter.setUserId(userId);
             userMessageCounter.setCounter(0);
         }
 

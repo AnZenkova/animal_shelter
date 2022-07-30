@@ -5,13 +5,15 @@ import org.springframework.lang.NonNull;
 import pro.sky.telegrambot.animal_shelter.model.User;
 
 /**
- * Репозиторий для работы с пользователем в БД
+ * Репозиторий для работы с моделью(моделями) пользователя в БД
  */
 public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
-     * Получение чата по Id из БД
-     * @param chatId
+     * Получение пользователя по Id чата из БД
+     *
+     * @param chatId Идентификатор чата
+     *
      * @return User
      */
     User findByChatIdEquals(@NonNull long chatId);

@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * Модель для создания пользователя
+ * Модель пользователя
  */
 @Entity
 @Table(name = User.TABLE_NAME)
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class User {
 
     public static final String TABLE_NAME = "users";
-    
+
     @Id
     @GeneratedValue
     private Long id;
@@ -26,7 +26,7 @@ public class User {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "telegramId")
+    @Column(name = "telegram_id")
     private long telegramId;
 
     @Column(name = "chat_id")
