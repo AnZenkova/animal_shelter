@@ -28,6 +28,11 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
         this.userMessageCounterRepository = userMessageCounterRepository;
     }
 
+    /**
+     * Отправка Сообщения пользователю при помощи метода сервиса Start
+     * @param update
+     * @return
+     */
     public SendMessage handle(Update update) {
         User user = getUser(update.message());
         increaseUserMessageCounter(user);
@@ -42,6 +47,11 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
         );
     }
 
+    /**
+     * Создание пользователя и добавление его в БД
+     * @param message
+     * @return user
+     */
     private User getUser(Message message) {
         User user = userRepository.findByChatIdEquals(message.chat().id());
 
@@ -61,6 +71,11 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
         return userRepository.save(user);
     }
 
+    /**
+     * Создание счетчика сообщений пользователя и добавление его в БД
+     * @param user
+     * @return void
+     */
     private void increaseUserMessageCounter(User user) {
         UserMessageCounter userMessageCounter = userMessageCounterRepository.findByUserIdEquals(user.getId());
 
