@@ -11,6 +11,9 @@ import pro.sky.telegrambot.animal_shelter.service.messageHandler.MessageHandlerS
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+/**
+ * Основной сервис в котором происходит распределение, по работе с чатом, на другие сервисы
+ */
 @Service
 public class TelegramBotUpdatesListener implements UpdatesListener {
 

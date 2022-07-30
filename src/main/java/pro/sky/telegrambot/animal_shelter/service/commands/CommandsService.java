@@ -5,5 +5,10 @@ import com.pengrad.telegrambot.request.SendMessage;
 
 public interface CommandsService {
 
+    /**
+     * Отправление сообщения в чат
+     * @param update
+     * @return SendMessage
+     */
     SendMessage start(Update update);
 }

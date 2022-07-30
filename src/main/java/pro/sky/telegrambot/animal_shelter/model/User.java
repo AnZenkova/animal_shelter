@@ -7,6 +7,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Модель для создания пользователя
+ */
 @Entity
 @Table(name = User.TABLE_NAME)
 @Setter
@@ -15,7 +18,7 @@ import java.time.LocalDateTime;
 public class User {
 
     public static final String TABLE_NAME = "users";
-
+    
     @Id
     @GeneratedValue
     private Long id;

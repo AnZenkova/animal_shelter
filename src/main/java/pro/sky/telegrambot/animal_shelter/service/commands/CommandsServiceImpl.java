@@ -14,6 +14,11 @@ public class CommandsServiceImpl implements CommandsService {
         );
     }
 
+    /**
+     * Создание сообщения для отправки в чат
+     * @param username
+     * @return String
+     */
     private String getTextMessage(String username) {
         return "Привет, " + username + " !\n" +
                 "Я пока мало чем могу помочь, но я учусь!";
