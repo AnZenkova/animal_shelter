@@ -32,18 +32,19 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
         User user = getUser(update.message());
         increaseUserMessageCounter(user.getId());
 
+        Long chatId = update.message().chat().id();
+
         if (update.message().text().equals("/start")) {
             return commandsService.start(update);
         }
 
-        return new SendMessage(update.message().chat().id(), "Я пока тебя не понимать");
+        return new SendMessage(chatId, "Я пока тебя не понимать");
     }
 
     /**
      * Поиск (или создание) пользователя в БД
      *
      * @param message Объект сообщения чата
-     *
      * @return User
      */
     private User getUser(Message message) {
