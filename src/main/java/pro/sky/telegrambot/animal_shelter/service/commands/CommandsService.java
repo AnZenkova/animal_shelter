@@ -13,4 +13,40 @@ public interface CommandsService {
      * @return SendMessage
      */
     SendMessage start(Update update);
+
+    /**
+     * Обработка команды `О приюте`
+     *
+     * @param update Объект сообщения чата
+     *
+     * @return SendMessage
+     */
+    SendMessage aboutShelter(Update update);
+
+    /**
+     * Обработка команды `Как взять собаку из приюта`
+     *
+     * @param update Объект сообщения чата
+     *
+     * @return SendMessage
+     */
+    SendMessage howGetDogFromShelter(Update update);
+
+    /**
+     * Обработка команды `Прислать отчет о питомце`
+     *
+     * @param update Объект сообщения чата
+     *
+     * @return SendMessage
+     */
+    SendMessage petReport(Update update);
+
+    /**
+     * Обработка команды `Позвать волонтёра`
+     *
+     * @param update Объект сообщения чата
+     *
+     * @return SendMessage
+     */
+    SendMessage volunteerCall(Update update);
 }

@@ -1,32 +1,52 @@
 package pro.sky.telegrambot.animal_shelter.service.commands;
 
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
-import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
-import com.pengrad.telegrambot.model.request.Keyboard;
-import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
+import pro.sky.telegrambot.animal_shelter.constant.Keyboards;
 
 @Service
 public class CommandsServiceImpl implements CommandsService {
 
+    @Override
     public SendMessage start(Update update) {
-        String message = "Привет, " + update.message().from().username() + " !\n" +
-                "Я пока мало чем могу помочь, но я учусь!";
+        String message = "Привет, " + update.message().from().firstName() +
+                "!\nВыбери, пожалуйста, один из пунктов!";
 
-        //Создание клавиатуры
-        Keyboard replyKeyboardMarkup = new ReplyKeyboardMarkup(
-                new String[]{"О приюте", "Как взять собаку из приюта"},
-                new String[]{"Прислать отчет о питомце", "Позвать волонтёра"})
-                .oneTimeKeyboard(true)
-                .resizeKeyboard(true)
-                .selective(true);
+        return new SendMessage(update.message().chat().id(), message)
+                .replyMarkup(Keyboards.SHELTER_KEYBOARD);
+    }
 
-        return new SendMessage(update.message().chat().id(), message).replyMarkup(replyKeyboardMarkup);
+    @Override
+    public SendMessage aboutShelter(Update update) {
+        String message = "Привет, " + update.message().from().firstName() +
+                "!\nЗдесь будет инфо о приюте";
+
+        return new SendMessage(update.message().chat().id(), message).replyMarkup(Keyboards.ABOUT_SHELTER_KEYBOARD);
+    }
+
+    @Override
+    public SendMessage howGetDogFromShelter(Update update) {
+        String message = "Привет, " + update.message().from().firstName() +
+                "!\nЗдесь будет инфо о том как взять собаку из приюта";
+
+        return new SendMessage(update.message().chat().id(), message);
+    }
+
+    @Override
+    public SendMessage petReport(Update update) {
+        String message = "Привет, " + update.message().from().firstName() +
+                "!\nЗдесь можно будет прислать отчет о питомце";
+
+        return new SendMessage(update.message().chat().id(), message);
+    }
+
+    @Override
+    public SendMessage volunteerCall(Update update) {
+        String message = "Привет, " + update.message().from().username() +
+                "!\nЗдесь можно будет позвать волонтера";
+
+        return new SendMessage(update.message().chat().id(), message);
     }
 
 }
