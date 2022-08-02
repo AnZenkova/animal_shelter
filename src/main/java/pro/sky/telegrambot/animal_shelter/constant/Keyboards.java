@@ -17,8 +17,8 @@ public final class Keyboards {
             .selective(true);
 
     public static final Keyboard ABOUT_SHELTER_KEYBOARD = new ReplyKeyboardMarkup(
-            new String[]{"1", "2", "3"},
-            new String[]{"4", "5"})
+            new String[]{"Информация о приюте", "Адрес приюта", "Как добраться"},
+            new String[]{"Расписание работы", "Правила безопасности", "Оставить данные для связи"})
             .oneTimeKeyboard(true)
             .resizeKeyboard(true)
             .selective(true);
