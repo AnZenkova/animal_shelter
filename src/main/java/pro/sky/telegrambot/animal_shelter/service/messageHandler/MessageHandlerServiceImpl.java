@@ -49,6 +49,14 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
                 return commandsService.petReport(update);
             case ("Позвать волонтёра"):
                 return commandsService.volunteerCall(update);
+        if (update.message().text().equals("/start")) {
+            return commandsService.start(update);
+        } else if (update.message().text().equals("О приюте")) {
+            return commandsService.info(update);
+        } else if (update.message().text().equals("Расписание работы")){
+            return commandsService.infoWorkSchedule(update);
+        }  else if (update.message().text().equals("Адрес приюта")) {
+            return commandsService.infoOfAddress(update);
         }
 
         return new SendMessage(chatId, "Выбери, пожалуйста, один из пунктов!")
