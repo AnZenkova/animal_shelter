@@ -36,6 +36,12 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
 
         if (update.message().text().equals("/start")) {
             return commandsService.start(update);
+        } else if (update.message().text().equals("О приюте")) {
+            return commandsService.info(update);
+        } else if (update.message().text().equals("Расписание работы")){
+            return commandsService.infoWorkSchedule(update);
+        }  else if (update.message().text().equals("Адрес приюта")) {
+            return commandsService.infoOfAddress(update);
         }
 
         return new SendMessage(chatId, "Я пока тебя не понимать");
