@@ -58,7 +58,7 @@ public class CommandsServiceImpl implements CommandsService {
         if (update.message().text().equals("О приюте")) {
             Keyboard replyKeyboardMarkup = new ReplyKeyboardMarkup(
                     new String[]{"Расписание работы", "Адрес приюта", "Как добраться"},
-                    new String[]{"Правила безопастности", "Информация о приюте", "Назад"})
+                    new String[]{"Правила безопасности", "Информация о приюте", "Назад"})
                     .oneTimeKeyboard(true)
                     .resizeKeyboard(true)
                     .selective(true);
@@ -70,13 +70,14 @@ public class CommandsServiceImpl implements CommandsService {
     }
 
     public SendMessage infoWorkSchedule(Update update) {
-        return new SendMessage(update.message().chat().id(), "Понедельник с 9:00 до 18:00; " +
-                "Вторник с 9:00 до 18:00; " +
-                "Среда с 9:00 до 18:00; " +
-                "Четверг с 9:00 до 18:00; " +
-                "Пятница с 9:00 до 18:00; " +
-                "Суббота с 10:00 до 17:00; " +
-                "Воскресенье выходной");
+        return new SendMessage(update.message().chat().id(),
+                "•Понедельник с 9:00 до 18:00\n" +
+                        "•Вторник с 9:00 до 18:00\n" +
+                        "•Среда с 9:00 до 18:00\n" +
+                        "•Четверг с 9:00 до 18:00\n" +
+                        "•Пятница с 9:00 до 18:00\n" +
+                        "•Суббота с 10:00 до 17:00\n" +
+                        "•Воскресенье - выходной");
     }
 
     public SendMessage infoOfAddress(Update update) {

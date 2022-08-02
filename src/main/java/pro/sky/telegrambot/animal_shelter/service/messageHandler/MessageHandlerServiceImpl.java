@@ -49,64 +49,65 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
                 return commandsService.petReport(update);
             case ("Позвать волонтёра"):
                 return commandsService.volunteerCall(update);
-             else if (update.message().text().equals("О приюте")) {
-                return commandsService.info(update);
-            } else if (update.message().text().equals("Расписание работы")) {
-                return commandsService.infoWorkSchedule(update);
-            } else if (update.message().text().equals("Адрес приюта")) {
-                return commandsService.infoOfAddress(update);
-            }
 
-            return new SendMessage(chatId, "Выбери, пожалуйста, один из пунктов!")
-                    .replyMarkup(Keyboards.SHELTER_KEYBOARD);
         }
 
-        /**
-         * Поиск (или создание) пользователя в БД
-         *
-         * @param message Объект сообщения чата
-         * @return User
-         */
-
-        private User getUser (Message message){
-
-            User user = userRepository.findByChatIdEquals(message.chat().id());
-
-            if (user != null) {
-                return user;
-            }
-
-            user = new User();
-            user.setCreatedAt(LocalDateTime.now());
-            user.setTelegramId(message.from().id());
-            user.setChatId(message.chat().id());
-            user.setUsername(message.from().username());
-            user.setFirstName(message.from().firstName());
-            user.setLastName(message.from().lastName());
-            user.setBot(message.from().isBot());
-
-            return userRepository.save(user);
+        if(update.message().text().equals("О приюте")) {
+            return commandsService.info(update);
+        } else if (update.message().text().equals("Расписание работы")) {
+            return commandsService.infoWorkSchedule(update);
+        } else if (update.message().text().equals("Адрес приюта")) {
+            return commandsService.infoOfAddress(update);
         }
 
-        /**
-         * Поиск (или создание) счётчика сообщений пользователя в БД
-         * Увеличение его на единицу
-         *
-         * @param userId Идентификатор пользователя
-         */
-        private void increaseUserMessageCounter (Long userId){
-            UserMessageCounter userMessageCounter = userMessageCounterRepository.findByUserIdEquals(userId);
+        return new SendMessage(chatId, "Выбери, пожалуйста, один из пунктов!")
+                .replyMarkup(Keyboards.SHELTER_KEYBOARD);
+    }
 
-            if (userMessageCounter == null) {
-                userMessageCounter = new UserMessageCounter();
-                userMessageCounter.setUserId(userId);
-                userMessageCounter.setCounter(0);
-            }
+    /**
+     * Поиск (или создание) пользователя в БД
+     *
+     * @param message Объект сообщения чата
+     * @return User
+     */
 
-            userMessageCounter.increaseCounter();
+    private User getUser(Message message) {
 
-            userMessageCounterRepository.save(userMessageCounter);
+        User user = userRepository.findByChatIdEquals(message.chat().id());
+
+        if (user != null) {
+            return user;
         }
 
+        user = new User();
+        user.setCreatedAt(LocalDateTime.now());
+        user.setTelegramId(message.from().id());
+        user.setChatId(message.chat().id());
+        user.setUsername(message.from().username());
+        user.setFirstName(message.from().firstName());
+        user.setLastName(message.from().lastName());
+        user.setBot(message.from().isBot());
+
+        return userRepository.save(user);
+    }
+
+    /**
+     * Поиск (или создание) счётчика сообщений пользователя в БД
+     * Увеличение его на единицу
+     *
+     * @param userId Идентификатор пользователя
+     */
+    private void increaseUserMessageCounter(Long userId) {
+        UserMessageCounter userMessageCounter = userMessageCounterRepository.findByUserIdEquals(userId);
+
+        if (userMessageCounter == null) {
+            userMessageCounter = new UserMessageCounter();
+            userMessageCounter.setUserId(userId);
+            userMessageCounter.setCounter(0);
+        }
+
+        userMessageCounter.increaseCounter();
+
+        userMessageCounterRepository.save(userMessageCounter);
     }
 }
