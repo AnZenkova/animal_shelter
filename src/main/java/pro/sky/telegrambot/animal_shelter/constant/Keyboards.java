@@ -23,4 +23,11 @@ public final class Keyboards {
             .resizeKeyboard(true)
             .selective(true);
 
+    public static final Keyboard ABOUT_HOW_TO_TAKE_ANIMAL_FROM_SHELTER = new ReplyKeyboardMarkup(
+            new String[]{"Правила знакомства с собакой", "Список документов", "О перевозке"},
+            new String[]{"Обустройство дома для щенка"})
+            .oneTimeKeyboard(true)
+            .resizeKeyboard(true)
+            .selective(true);
+
 }

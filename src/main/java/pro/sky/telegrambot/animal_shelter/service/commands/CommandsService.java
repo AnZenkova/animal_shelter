@@ -14,12 +14,6 @@ public interface CommandsService {
      */
     SendMessage start(Update update);
 
-//    SendMessage info(Update update);
-//
-//    public SendMessage infoWorkSchedule(Update update);
-//
-//    public SendMessage infoOfAddress(Update update);
-
     /**
      * Обработка команды `О приюте`
      *

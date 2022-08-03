@@ -3,6 +3,7 @@ package pro.sky.telegrambot.animal_shelter.service.messageHandler;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.animal_shelter.constant.Keyboards;
 import pro.sky.telegrambot.animal_shelter.model.MessageHistory;
@@ -12,6 +13,7 @@ import pro.sky.telegrambot.animal_shelter.repository.MessageHistoryRepository;
 import pro.sky.telegrambot.animal_shelter.repository.UserMessageCounterRepository;
 import pro.sky.telegrambot.animal_shelter.repository.UserRepository;
 import pro.sky.telegrambot.animal_shelter.service.commands.CommandsService;
+import pro.sky.telegrambot.animal_shelter.service.infoForPotentialOwner.InformationForPotentialOwnerService;
 import pro.sky.telegrambot.animal_shelter.service.infoOfShelter.InformationOfShelterService;
 
 import java.time.LocalDateTime;
@@ -22,22 +24,24 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
     private final UserRepository userRepository;
     private final UserMessageCounterRepository userMessageCounterRepository;
     private final InformationOfShelterService informationOfShelterService;
-
     private final MessageHistoryRepository messageHistoryRepository;
+    private final InformationForPotentialOwnerService informationForPotentialOwnerService;
 
-    public MessageHandlerServiceImpl(
-            CommandsService commandsService,
-            UserRepository userRepository,
-            UserMessageCounterRepository userMessageCounterRepository,
-            InformationOfShelterService informationOfShelterService,
-            MessageHistoryRepository messageHistoryRepository) {
+    public MessageHandlerServiceImpl(CommandsService commandsService,
+                                     UserRepository userRepository,
+                                     UserMessageCounterRepository userMessageCounterRepository,
+                                     InformationOfShelterService informationOfShelterService,
+                                     MessageHistoryRepository messageHistoryRepository,
+                                     InformationForPotentialOwnerService informationForPotentialOwnerService) {
         this.commandsService = commandsService;
         this.userRepository = userRepository;
         this.userMessageCounterRepository = userMessageCounterRepository;
         this.informationOfShelterService = informationOfShelterService;
         this.messageHistoryRepository = messageHistoryRepository;
+        this.informationForPotentialOwnerService = informationForPotentialOwnerService;
     }
 
+    @SneakyThrows
     public SendMessage handle(Update update) {
         Message message = update.message();
         User user = getUser(message);
@@ -64,8 +68,8 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
                 return informationOfShelterService.infoWorkSchedule(update);
             case ("Адрес приюта"):
                 return informationOfShelterService.infoOfAddress(update);
-//            case ("Как добраться"):
-//                return informationOfShelterService.infoOfAddress(update);
+            case ("Как добраться"):
+                return informationOfShelterService.map(update);
             case ("Информация о приюте"):
                 return informationOfShelterService.infoShelter(update);
             case ("Правила безопасности"):
@@ -73,6 +77,14 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
             case ("Оставить данные для связи"):
                 saveMessage(chatId, text);
                 return new SendMessage(message.chat().id(), "Жду твоих данных");
+            case ("Правила знакомства с собакой"):
+                return informationForPotentialOwnerService.getRulesForGettingToKnowAnAnimal(update);
+            case ("Список документов"):
+                return informationForPotentialOwnerService.getListOfDocuments(update);
+            case ("О перевозке"):
+                return informationForPotentialOwnerService.getListOfRecommendationsForTransportation(update);
+            case ("Обустройство дома для щенка"):
+                return informationForPotentialOwnerService.getRecommendationsAboutHouseForPuppy(update);
         }
 
         if(messageHistoryRepository.getEndMessage().equals("Оставить данные для связи")){
