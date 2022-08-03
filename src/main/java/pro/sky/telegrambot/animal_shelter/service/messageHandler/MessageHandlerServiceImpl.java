@@ -43,7 +43,6 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
         User user = getUser(message);
         increaseUserMessageCounter(user.getId());
 
-
         Long chatId = message.chat().id();
 
         String text = message.text();
@@ -55,24 +54,17 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
                 saveMessage(chatId, text);
                 return commandsService.aboutShelter(update);
             case ("Как взять собаку из приюта"):
+                saveMessage(chatId, text);
                 return commandsService.howGetDogFromShelter(update);
             case ("Прислать отчет о питомце"):
+                saveMessage(chatId, text);
                 return commandsService.petReport(update);
             case ("Позвать волонтёра"):
                 return commandsService.volunteerCall(update);
-            case ("Расписание работы"):
-                return informationOfShelterService.infoWorkSchedule(update);
-            case ("Адрес приюта"):
-                return informationOfShelterService.infoOfAddress(update);
-//            case ("Как добраться"):
-//                return informationOfShelterService.infoOfAddress(update);
-            case ("Информация о приюте"):
-                return informationOfShelterService.infoShelter(update);
-            case ("Правила безопасности"):
-                return informationOfShelterService.safetyRegulations(update);
-            case ("Оставить данные для связи"):
-                saveMessage(chatId, text);
-                return new SendMessage(message.chat().id(), "Жду твоих данных");
+        }
+
+        if(messageHistoryRepository.getEndMessage().equals("О приюте")){
+            return informationOfShelterService.distribution(update);
         }
 
         if(messageHistoryRepository.getEndMessage().equals("Оставить данные для связи")){
@@ -88,6 +80,7 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
      * Поиск (или создание) пользователя в БД
      *
      * @param message Объект сообщения чата
+     *
      * @return User
      */
 
@@ -131,6 +124,12 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
         userMessageCounterRepository.save(userMessageCounter);
     }
 
+    /**
+     * Сохранение сообщения в историю сообщений
+     *
+     * @param chatId Идентификатор чата
+     * @param message Сообщение для сохранения в историю
+     */
     private void saveMessage (long chatId, String message){
         messageHistoryRepository.save(new MessageHistory(chatId, message));
     }
