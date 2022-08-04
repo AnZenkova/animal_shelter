@@ -1,11 +1,14 @@
 package pro.sky.telegrambot.animal_shelter.service.infoOfShelter;
 
+import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.animal_shelter.constant.Keyboards;
+import pro.sky.telegrambot.animal_shelter.model.MessageHistory;
 import pro.sky.telegrambot.animal_shelter.model.User;
 import pro.sky.telegrambot.animal_shelter.model.UserCommunication;
+import pro.sky.telegrambot.animal_shelter.repository.MessageHistoryRepository;
 import pro.sky.telegrambot.animal_shelter.repository.UserCommunicationRepository;
 import pro.sky.telegrambot.animal_shelter.repository.UserRepository;
 
@@ -18,11 +21,42 @@ public class InformationOfShelterServiceImpl implements InformationOfShelterServ
 
     private final UserRepository userRepository;
 
-    public InformationOfShelterServiceImpl(UserCommunicationRepository userCommunicationRepository, UserRepository userRepository) {
+    private final MessageHistoryRepository messageHistoryRepository;
+
+    public InformationOfShelterServiceImpl(UserCommunicationRepository userCommunicationRepository, UserRepository userRepository, MessageHistoryRepository messageHistoryRepository) {
         this.userCommunicationRepository = userCommunicationRepository;
         this.userRepository = userRepository;
+        this.messageHistoryRepository = messageHistoryRepository;
     }
 
+    @Override
+    public SendMessage distribution(Update update) {
+
+        Message message = update.message();
+
+        Long chatId = message.chat().id();
+
+        String text = message.text();
+
+        switch (text) {
+            case ("Расписание работы"):
+                return infoWorkSchedule(update);
+            case ("Адрес приюта"):
+                return infoOfAddress(update);
+//            case ("Как добраться"):
+//                return informationOfShelterService.infoOfAddress(update);
+            case ("Информация о приюте"):
+                return infoShelter(update);
+            case ("Правила безопасности"):
+                return safetyRegulations(update);
+            case ("Оставить данные для связи"):
+                saveMessage(chatId, text);
+                return new SendMessage(chatId, "Жду твоих данных");
+        }
+
+        return new SendMessage(chatId, "Выбери, пожалуйста, один из пунктов!")
+                .replyMarkup(Keyboards.SHELTER_KEYBOARD);
+    }
     @Override
     public SendMessage infoWorkSchedule(Update update) {
         return new SendMessage(update.message().chat().id(),
@@ -32,12 +66,14 @@ public class InformationOfShelterServiceImpl implements InformationOfShelterServ
                         "•Четверг с 9:00 до 18:00\n" +
                         "•Пятница с 9:00 до 18:00\n" +
                         "•Суббота с 10:00 до 17:00\n" +
-                        "•Воскресенье - выходной");
+                        "•Воскресенье - выходной")
+                .replyMarkup(Keyboards.ABOUT_SHELTER_KEYBOARD);
     }
 
     @Override
     public SendMessage infoOfAddress(Update update) {
-        return new SendMessage(update.message().chat().id(), "г. Москва, ул. Родниковая, вл26");
+        return new SendMessage(update.message().chat().id(), "г. Москва, ул. Родниковая, вл26")
+                .replyMarkup(Keyboards.ABOUT_SHELTER_KEYBOARD);
     }
 
     @Override
@@ -48,12 +84,18 @@ public class InformationOfShelterServiceImpl implements InformationOfShelterServ
 
     @Override
     public SendMessage safetyRegulations(Update update) {
-        return new SendMessage(update.message().chat().id(), "Здесь будут какие то правила безопасности!");
+        return new SendMessage(update.message().chat().id(),
+                "Посетители должны вести себя спокойно и тихо, поскольку животные не любят шума и суеты!\n" +
+                "Бегать и кричать категорически запрещается!")
+                .replyMarkup(Keyboards.ABOUT_SHELTER_KEYBOARD);
     }
 
     @Override
     public SendMessage infoShelter(Update update){
-        return new SendMessage(update.message().chat().id(), "Здесь будет информация о приюте!");
+        return new SendMessage(update.message().chat().id(),
+                "В нашем приюте вы можете взять щенка или взрослую собаку.\n" +
+                "Выдаём собак бесплатно, привитых от бешенства, обработанных от паразитов")
+                .replyMarkup(Keyboards.ABOUT_SHELTER_KEYBOARD);
     }
 
     @Override
@@ -65,8 +107,11 @@ public class InformationOfShelterServiceImpl implements InformationOfShelterServ
         if(userCommunication != null){
             return new SendMessage(update.message().chat().id(), user.getFirstName() + ", твои данные успешно сохранены!").replyMarkup(Keyboards.SHELTER_KEYBOARD);
         }
-        return new SendMessage(update.message().chat().id(), "Что то пошло не так, пожалуйста попробуй заново!");
+        return new SendMessage(update.message().chat().id(), "Что то пошло не так, пожалуйста попробуй ввести заново!");
 
     }
 
+    private void saveMessage (long chatId, String message){
+        messageHistoryRepository.save(new MessageHistory(chatId, message));
+    }
 }
