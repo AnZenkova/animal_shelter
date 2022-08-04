@@ -12,7 +12,6 @@ import pro.sky.telegrambot.animal_shelter.repository.MessageHistoryRepository;
 import pro.sky.telegrambot.animal_shelter.repository.UserCommunicationRepository;
 import pro.sky.telegrambot.animal_shelter.repository.UserRepository;
 
-import java.net.MalformedURLException;
 
 @Service
 public class InformationOfShelterServiceImpl implements InformationOfShelterService{
@@ -77,9 +76,8 @@ public class InformationOfShelterServiceImpl implements InformationOfShelterServ
     }
 
     @Override
-    public void Map() throws MalformedURLException {
-//        URL url = new URL("https://yandex.ru/maps/?ll=86.307640%2C51.697250&mode=routes&rtext=43.096069%2C133.120554~55.624728%2C37.376078&rtt=auto&ruri=~ymapsbm1%3A%2F%2Forg%3Foid%3D1476817960&z=2");
-
+    public SendMessage map(Update update) {
+        return new SendMessage(update.message().chat().id(),"https://yandex.ru/maps/?ll=86.307640%2C51.697250&mode=routes&rtext=43.096069%2C133.120554~55.624728%2C37.376078&rtt=auto&ruri=~ymapsbm1%3A%2F%2Forg%3Foid%3D1476817960&z=2");
     }
 
     @Override

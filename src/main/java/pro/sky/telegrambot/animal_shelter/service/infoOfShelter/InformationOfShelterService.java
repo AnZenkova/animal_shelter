@@ -3,8 +3,6 @@ package pro.sky.telegrambot.animal_shelter.service.infoOfShelter;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 
-import java.net.MalformedURLException;
-
 
 public interface InformationOfShelterService {
 
@@ -35,7 +33,7 @@ public interface InformationOfShelterService {
      */
     SendMessage infoOfAddress(Update update);
 
-    void Map() throws MalformedURLException;
+    SendMessage map(Update update);
 
     /**
      * Обработка команды `Правила безопасности в приюте`

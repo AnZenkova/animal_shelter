@@ -14,12 +14,6 @@ public interface CommandsService {
      */
     SendMessage start(Update update);
 
-//    SendMessage info(Update update);
-//
-//    public SendMessage infoWorkSchedule(Update update);
-//
-//    public SendMessage infoOfAddress(Update update);
-
     /**
      * Обработка команды `О приюте`
      *
@@ -55,4 +49,13 @@ public interface CommandsService {
      * @return SendMessage
      */
     SendMessage volunteerCall(Update update);
+
+    /**
+     * Обработка команды `Назад`
+     *
+     * @param update Объект сообщения чата
+     *
+     * @return SendMessage
+     */
+    public SendMessage back(Update update);
 }

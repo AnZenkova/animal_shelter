@@ -28,9 +28,9 @@ public class CommandsServiceImpl implements CommandsService {
     @Override
     public SendMessage howGetDogFromShelter(Update update) {
         String message = "Привет, " + update.message().from().firstName() +
-                "!\nЗдесь будет инфо о том как взять собаку из приюта";
+                "!\nЯ могу кое-что рассказать тебе о том как взять собаку из приюта! \nВыбери что бы ты хотел узнать";
 
-        return new SendMessage(update.message().chat().id(), message);
+        return new SendMessage(update.message().chat().id(), message).replyMarkup(Keyboards.ABOUT_HOW_TO_TAKE_ANIMAL_FROM_SHELTER);
     }
 
     @Override
@@ -48,5 +48,11 @@ public class CommandsServiceImpl implements CommandsService {
                 "\nМожет быть я чем то ещё могу тебе помочь!?";
 
         return new SendMessage(update.message().chat().id(), message).replyMarkup(Keyboards.SHELTER_KEYBOARD);
+    }
+
+    @Override
+    public SendMessage back(Update update) {
+        return new SendMessage(update.message().chat().id(), "Вы вернулись назад")
+                .replyMarkup(Keyboards.SHELTER_KEYBOARD);
     }
 }
