@@ -18,7 +18,8 @@ public final class Keyboards {
 
     public static final Keyboard ABOUT_SHELTER_KEYBOARD = new ReplyKeyboardMarkup(
             new String[]{"Информация о приюте", "Адрес приюта", "Как добраться"},
-            new String[]{"Расписание работы", "Правила безопасности", "Оставить данные для связи"})
+            new String[]{"Расписание работы", "Правила безопасности", "Оставить данные для связи"},
+            new String[]{"Назад"})
             .oneTimeKeyboard(true)
             .resizeKeyboard(true)
             .selective(true);
@@ -27,7 +28,7 @@ public final class Keyboards {
             new String[]{"Правила знакомства с собакой", "Список документов", "О перевозке"},
             new String[]{"Об-во дома для щенка", "Об-во для взрослой собаки", "Об-во для собаки с ограниченными возможностями"},
             new String[]{"Кинолог. С чего начать", "Список кинологов", "Причины об отказе"},
-            new String[]{"Позвать волонтёра", "Назад"})
+            new String[]{"Назад", "Оставить данные для связи", "Позвать волонтёра"})
             .oneTimeKeyboard(true)
             .resizeKeyboard(true)
             .selective(true);

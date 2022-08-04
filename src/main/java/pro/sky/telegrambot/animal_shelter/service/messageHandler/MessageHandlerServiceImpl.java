@@ -65,25 +65,11 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
                 return commandsService.petReport(update);
             case ("Позвать волонтёра"):
                 return commandsService.volunteerCall(update);
-            case ("Правила знакомства с собакой"):
-                return informationForPotentialOwnerService.getRulesForGettingToKnowAnAnimal(update);
-            case ("Список документов"):
-                return informationForPotentialOwnerService.getListOfDocuments(update);
-            case ("О перевозке"):
-                return informationForPotentialOwnerService.getListOfRecommendationsForTransportation(update);
-            case ("Об-во дома для щенка"):
-                return informationForPotentialOwnerService.getRecommendationsAboutHouseForPuppy(update);
-            case ("Об-во для взрослой собаки"):
-                return informationForPotentialOwnerService.getRecommendationsAboutHouseForDog(update);
-            case ("Об-во для собаки с ограниченными возможностями"):
-                return informationForPotentialOwnerService.getRecommendationsAboutHouseForDisabledDog(update);
-            case ("Кинолог. С чего начать"):
-                return informationForPotentialOwnerService.getInitialCommunicationWithDog(update);
-            case ("Список кинологов"):
-                return informationForPotentialOwnerService.getListOfCynologist(update);
-            case ("Причины об отказе"):
-                return informationForPotentialOwnerService.getReasonsForRefusal(update);
+            case ("Оставить данные для связи"):
+                saveMessage(chatId, text);
+                return new SendMessage(chatId, "Жду твоих данных");
             case ("Назад"):
+                saveMessage(chatId, text);
                 return commandsService.back(update);
         }
 
@@ -91,10 +77,15 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
             return informationOfShelterService.distribution(update);
         }
 
+        if(messageHistoryRepository.getEndMessage().equals("Как взять собаку из приюта")){
+            return informationForPotentialOwnerService.distribution(update);
+        }
+
         if(messageHistoryRepository.getEndMessage().equals("Оставить данные для связи")){
             saveMessage(chatId, text);
             return informationOfShelterService.saveUserData(update, text);
         }
+
         return new SendMessage(chatId, "Выбери, пожалуйста, один из пунктов!")
                 .replyMarkup(Keyboards.SHELTER_KEYBOARD);
     }

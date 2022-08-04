@@ -50,6 +50,7 @@ public class CommandsServiceImpl implements CommandsService {
         return new SendMessage(update.message().chat().id(), message).replyMarkup(Keyboards.SHELTER_KEYBOARD);
     }
 
+
     @Override
     public SendMessage back(Update update) {
         return new SendMessage(update.message().chat().id(), "Вы вернулись назад")

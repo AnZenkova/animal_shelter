@@ -14,7 +14,7 @@ import pro.sky.telegrambot.animal_shelter.repository.UserRepository;
 
 
 @Service
-public class InformationOfShelterServiceImpl implements InformationOfShelterService{
+public class InformationOfShelterServiceImpl implements InformationOfShelterService {
 
     private final UserCommunicationRepository userCommunicationRepository;
 
@@ -42,8 +42,8 @@ public class InformationOfShelterServiceImpl implements InformationOfShelterServ
                 return infoWorkSchedule(update);
             case ("Адрес приюта"):
                 return infoOfAddress(update);
-//            case ("Как добраться"):
-//                return informationOfShelterService.infoOfAddress(update);
+            case ("Как добраться"):
+                return map(update);
             case ("Информация о приюте"):
                 return infoShelter(update);
             case ("Правила безопасности"):
@@ -54,8 +54,9 @@ public class InformationOfShelterServiceImpl implements InformationOfShelterServ
         }
 
         return new SendMessage(chatId, "Выбери, пожалуйста, один из пунктов!")
-                .replyMarkup(Keyboards.SHELTER_KEYBOARD);
+                .replyMarkup(Keyboards.ABOUT_SHELTER_KEYBOARD);
     }
+
     @Override
     public SendMessage infoWorkSchedule(Update update) {
         return new SendMessage(update.message().chat().id(),
@@ -77,39 +78,41 @@ public class InformationOfShelterServiceImpl implements InformationOfShelterServ
 
     @Override
     public SendMessage map(Update update) {
-        return new SendMessage(update.message().chat().id(),"https://yandex.ru/maps/?ll=86.307640%2C51.697250&mode=routes&rtext=43.096069%2C133.120554~55.624728%2C37.376078&rtt=auto&ruri=~ymapsbm1%3A%2F%2Forg%3Foid%3D1476817960&z=2");
+        return new SendMessage(update.message().chat().id(),
+                "https://yandex.ru/maps/?ll=86.307640%2C51.697250&mode=routes&rtext=43.096069%2C133.120554~55.624728%2C37.376078&rtt=auto&ruri=~ymapsbm1%3A%2F%2Forg%3Foid%3D1476817960&z=2")
+                .replyMarkup(Keyboards.ABOUT_SHELTER_KEYBOARD);
     }
 
     @Override
     public SendMessage safetyRegulations(Update update) {
         return new SendMessage(update.message().chat().id(),
                 "Посетители должны вести себя спокойно и тихо, поскольку животные не любят шума и суеты!\n" +
-                "Бегать и кричать категорически запрещается!")
+                        "Бегать и кричать категорически запрещается!")
                 .replyMarkup(Keyboards.ABOUT_SHELTER_KEYBOARD);
     }
 
     @Override
-    public SendMessage infoShelter(Update update){
+    public SendMessage infoShelter(Update update) {
         return new SendMessage(update.message().chat().id(),
                 "В нашем приюте вы можете взять щенка или взрослую собаку.\n" +
-                "Выдаём собак бесплатно, привитых от бешенства, обработанных от паразитов")
+                        "Выдаём собак бесплатно, привитых от бешенства, обработанных от паразитов")
                 .replyMarkup(Keyboards.ABOUT_SHELTER_KEYBOARD);
     }
 
     @Override
-    public SendMessage saveUserData(Update update, String dataUser){
+    public SendMessage saveUserData(Update update, String dataUser) {
         User user = userRepository.findByChatIdEquals(update.message().chat().id());
 
         UserCommunication userCommunication = userCommunicationRepository.save(new UserCommunication(user.getId(), dataUser));
 
-        if(userCommunication != null){
+        if (userCommunication != null) {
             return new SendMessage(update.message().chat().id(), user.getFirstName() + ", твои данные успешно сохранены!").replyMarkup(Keyboards.SHELTER_KEYBOARD);
         }
         return new SendMessage(update.message().chat().id(), "Что то пошло не так, пожалуйста попробуй ввести заново!");
 
     }
 
-    private void saveMessage (long chatId, String message){
+    private void saveMessage(long chatId, String message) {
         messageHistoryRepository.save(new MessageHistory(chatId, message));
     }
 }

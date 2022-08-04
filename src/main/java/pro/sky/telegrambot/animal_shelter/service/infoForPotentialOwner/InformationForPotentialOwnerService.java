@@ -5,6 +5,8 @@ import com.pengrad.telegrambot.request.SendMessage;
 
 public interface InformationForPotentialOwnerService {
 
+    SendMessage distribution(Update update);
+
     /**
      * Метод получения правил знакомства с собакой
      *
