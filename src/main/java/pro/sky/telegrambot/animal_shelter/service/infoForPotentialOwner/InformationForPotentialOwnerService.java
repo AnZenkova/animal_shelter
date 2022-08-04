@@ -41,4 +41,45 @@ public interface InformationForPotentialOwnerService {
      */
 
     SendMessage getRecommendationsAboutHouseForPuppy(Update update);
+
+
+    /**
+     * Метод получения списка рекомендаций для обустройства дома для взрослой собаки
+     *
+     * @param update Объект сообщения чата
+     * @return SendMessage
+     */
+    SendMessage getRecommendationsAboutHouseForDog(Update update);
+
+    /**
+     * Метод получения списка рекомендаций для обустройства дома для собаки с ограниченными возможнотями
+     *
+     * @param update Объект сообщения чата
+     * @return SendMessage
+     */
+    SendMessage getRecommendationsAboutHouseForDisabledDog(Update update);
+
+    /**
+     * Метод получения списка рекомендаций от кинолога по первичному общению с собакой
+     *
+     * @param update Объект сообщения чата
+     * @return SendMessage
+     */
+    SendMessage getInitialCommunicationWithDog(Update update);
+
+    /**
+     * Метод получения списка кинологов
+     *
+     * @param update Объект сообщения чата
+     * @return SendMessage
+     */
+    SendMessage getListOfCynologist(Update update);
+
+    /**
+     * Метод получения списка причин отказа о заборе собаки из приюта
+     *
+     * @param update Объект сообщения чата
+     * @return SendMessage
+     */
+    SendMessage getReasonsForRefusal(Update update);
 }

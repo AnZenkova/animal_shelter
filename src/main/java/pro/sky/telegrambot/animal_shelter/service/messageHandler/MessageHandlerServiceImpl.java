@@ -83,15 +83,26 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
                 return informationForPotentialOwnerService.getListOfDocuments(update);
             case ("О перевозке"):
                 return informationForPotentialOwnerService.getListOfRecommendationsForTransportation(update);
-            case ("Обустройство дома для щенка"):
+            case ("Об-во дома для щенка"):
                 return informationForPotentialOwnerService.getRecommendationsAboutHouseForPuppy(update);
+            case ("Об-во для взрослой собаки"):
+                return informationForPotentialOwnerService.getRecommendationsAboutHouseForDog(update);
+            case ("Об-во для собаки с ограниченными возможностями"):
+                return informationForPotentialOwnerService.getRecommendationsAboutHouseForDisabledDog(update);
+            case ("Кинолог. С чего начать"):
+                return informationForPotentialOwnerService.getInitialCommunicationWithDog(update);
+            case ("Список кинологов"):
+                return informationForPotentialOwnerService.getListOfCynologist(update);
+            case ("Причины об отказе"):
+                return informationForPotentialOwnerService.getReasonsForRefusal(update);
+            case ("Назад"):
+                return commandsService.back(update);
         }
 
         if(messageHistoryRepository.getEndMessage().equals("Оставить данные для связи")){
             saveMessage(chatId, text);
             return informationOfShelterService.saveUserData(update, text);
         }
-
         return new SendMessage(chatId, "Выбери, пожалуйста, один из пунктов!")
                 .replyMarkup(Keyboards.SHELTER_KEYBOARD);
     }

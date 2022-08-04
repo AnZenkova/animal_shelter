@@ -49,4 +49,13 @@ public interface CommandsService {
      * @return SendMessage
      */
     SendMessage volunteerCall(Update update);
+
+    /**
+     * Обработка команды `Назад`
+     *
+     * @param update Объект сообщения чата
+     *
+     * @return SendMessage
+     */
+    public SendMessage back(Update update);
 }
