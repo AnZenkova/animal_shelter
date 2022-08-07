@@ -10,7 +10,7 @@ public final class Keyboards {
 
     //Создание таблицы основного меню
     public static final Keyboard SHELTER_KEYBOARD = new ReplyKeyboardMarkup(
-            new String[]{"О приюте", "Как взять собаку из приюта"},
+            new String[]{"О приюте", "Как взять собаку из приюта", "Как взять кошку из приюта"},
             new String[]{"Прислать отчет о питомце", "Позвать волонтёра"})
             .oneTimeKeyboard(true)
             .resizeKeyboard(true)

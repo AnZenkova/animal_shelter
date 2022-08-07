@@ -1,7 +1,5 @@
 -- liquibase formatted sql
 
--- changeset lancoid:1
-
 DROP TABLE IF EXISTS users_message_counter;
 
 CREATE TABLE user_message_counter

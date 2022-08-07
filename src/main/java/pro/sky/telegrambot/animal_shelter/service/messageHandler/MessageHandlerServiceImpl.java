@@ -12,9 +12,11 @@ import pro.sky.telegrambot.animal_shelter.model.UserMessageCounter;
 import pro.sky.telegrambot.animal_shelter.repository.MessageHistoryRepository;
 import pro.sky.telegrambot.animal_shelter.repository.UserMessageCounterRepository;
 import pro.sky.telegrambot.animal_shelter.repository.UserRepository;
+import pro.sky.telegrambot.animal_shelter.service.UserCat.UserCatService;
 import pro.sky.telegrambot.animal_shelter.service.commands.CommandsService;
 import pro.sky.telegrambot.animal_shelter.service.infoForPotentialOwner.InformationForPotentialOwnerService;
 import pro.sky.telegrambot.animal_shelter.service.infoOfShelter.InformationOfShelterService;
+import pro.sky.telegrambot.animal_shelter.service.userDog.UserDogService;
 
 import java.time.LocalDateTime;
 
@@ -26,19 +28,24 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
     private final InformationOfShelterService informationOfShelterService;
     private final MessageHistoryRepository messageHistoryRepository;
     private final InformationForPotentialOwnerService informationForPotentialOwnerService;
+    private final UserDogService userDogService;
+    private final UserCatService userCatService;
 
     public MessageHandlerServiceImpl(CommandsService commandsService,
                                      UserRepository userRepository,
                                      UserMessageCounterRepository userMessageCounterRepository,
                                      InformationOfShelterService informationOfShelterService,
                                      MessageHistoryRepository messageHistoryRepository,
-                                     InformationForPotentialOwnerService informationForPotentialOwnerService) {
+                                     InformationForPotentialOwnerService informationForPotentialOwnerService,
+                                     UserDogService userDogService, UserCatService userCatService) {
         this.commandsService = commandsService;
         this.userRepository = userRepository;
         this.userMessageCounterRepository = userMessageCounterRepository;
         this.informationOfShelterService = informationOfShelterService;
         this.messageHistoryRepository = messageHistoryRepository;
         this.informationForPotentialOwnerService = informationForPotentialOwnerService;
+        this.userDogService = userDogService;
+        this.userCatService = userCatService;
     }
 
     @SneakyThrows
@@ -58,8 +65,11 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
                 saveMessage(chatId, text);
                 return commandsService.aboutShelter(update);
             case ("Как взять собаку из приюта"):
+                userDogService.createUserDog(user);
                 saveMessage(chatId, text);
                 return commandsService.howGetDogFromShelter(update);
+            case ("Как взять кошку из приюта"):
+                userCatService.createUserCat(user);
             case ("Прислать отчет о питомце"):
                 saveMessage(chatId, text);
                 return commandsService.petReport(update);

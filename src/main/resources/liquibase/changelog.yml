@@ -9,3 +9,7 @@ databaseChangeLog:
       file: liquibase/scripts/create_table_user_communication_data.sql
   - include:
       file: liquibase/scripts/create_table_message_history.sql
+  - include:
+      file: liquibase/scripts/create_table_users_dog.sql
+  - include:
+      file: liquibase/scripts/create_table_users_cat.sql

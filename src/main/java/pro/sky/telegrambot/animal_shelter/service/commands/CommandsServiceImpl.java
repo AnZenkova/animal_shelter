@@ -2,11 +2,16 @@ package pro.sky.telegrambot.animal_shelter.service.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.animal_shelter.constant.Keyboards;
+import pro.sky.telegrambot.animal_shelter.service.userDog.UserDogService;
 
 @Service
 public class CommandsServiceImpl implements CommandsService {
+
+    @Autowired
+    UserDogService userDogService;
 
     @Override
     public SendMessage start(Update update) {
