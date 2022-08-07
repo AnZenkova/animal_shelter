@@ -10,17 +10,13 @@ import java.util.Objects;
 @Entity
 @Table(name = "users_cats")
 public class UserCat {
-
     @Id
     @GeneratedValue
     Long id;
-
     @Column(name = "username")
     private String username;
-
     @Column(name = "first_name")
     private String firstName;
-
     @Column(name = "last_name")
     private String lastName;
 
