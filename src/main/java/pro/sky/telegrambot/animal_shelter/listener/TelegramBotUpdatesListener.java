@@ -40,7 +40,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
 
-            telegramBot.execute(messageHandlerService.handle(update));
+            telegramBot.execute(messageHandlerService.choiceOfShelter(update));
         });
 
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
