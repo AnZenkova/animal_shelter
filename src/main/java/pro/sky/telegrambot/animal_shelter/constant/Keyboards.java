@@ -49,6 +49,12 @@ public final class Keyboards {
             .resizeKeyboard(true)
             .selective(true);
 
+    public static final Keyboard REPORT_KEYBOARD = new ReplyKeyboardMarkup(
+            "Назад", "Форма отчета")
+            .oneTimeKeyboard(true)
+            .resizeKeyboard(true)
+            .selective(true);
+
     public static final Keyboard CHOICE_OF_SHELTER_KEYBOARD = new ReplyKeyboardMarkup(
             "Приют для кошек", "Приют для собак")
             .oneTimeKeyboard(true)
