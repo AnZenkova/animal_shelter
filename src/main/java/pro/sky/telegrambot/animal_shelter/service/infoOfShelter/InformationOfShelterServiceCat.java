@@ -88,12 +88,9 @@ public class InformationOfShelterServiceCat extends InformationOfShelterServiceI
     public SendMessage saveUserData(Update update, String dataUser) {
         User user = userRepository.findByChatIdEquals(update.message().chat().id());
 
-        UserCatCommunication userCatCommunication = userCatCommunicationRepository.save(new UserCatCommunication(user.getId(), dataUser));
+        userCatCommunicationRepository.save(new UserCatCommunication(user.getId(), dataUser));
 
-        if (userCatCommunication != null) {
-            return new SendMessage(update.message().chat().id(), user.getFirstName() + ", твои данные успешно сохранены!").replyMarkup(Keyboards.SHELTER_KEYBOARD_CAT);
-        }
-        return new SendMessage(update.message().chat().id(), "Что то пошло не так, пожалуйста попробуй ввести заново!");
+        return new SendMessage(update.message().chat().id(), user.getFirstName() + ", твои данные успешно сохранены!").replyMarkup(Keyboards.SHELTER_KEYBOARD_CAT);
 
     }
 

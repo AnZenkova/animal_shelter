@@ -20,6 +20,8 @@ import pro.sky.telegrambot.animal_shelter.service.infoForPotentialOwner.Informat
 import pro.sky.telegrambot.animal_shelter.service.infoForPotentialOwner.InformationForPotentialOwnerService;
 import pro.sky.telegrambot.animal_shelter.service.infoOfShelter.InformationOfShelterServiceCat;
 import pro.sky.telegrambot.animal_shelter.service.infoOfShelter.InformationOfShelterServiceImpl;
+import pro.sky.telegrambot.animal_shelter.service.report.ReportCatService;
+import pro.sky.telegrambot.animal_shelter.service.report.ReportDogService;
 import pro.sky.telegrambot.animal_shelter.service.userDog.UserDogService;
 
 import java.time.LocalDateTime;
@@ -36,8 +38,9 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
     private final UserCatService userCatService;
     private final CatCommandsServiceImpl catCommandsService;
     private final InformationOfShelterServiceCat informationOfShelterServiceCat;
-
     private final InformationForPotentialOwnerCatServiceImpl informationForPotentialOwnerCatService;
+    private final ReportDogService reportDogService;
+    private final ReportCatService reportCatService;
 
     public MessageHandlerServiceImpl(
             CommandsServiceImpl commandsService, UserRepository userRepository,
@@ -46,12 +49,13 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
             InformationForPotentialOwnerService informationForPotentialOwnerService,
             UserDogService userDogService, UserCatService userCatService,
             CatCommandsServiceImpl catCommandsService,
-            InformationOfShelterServiceCat informationOfShelterServiceCat, InformationForPotentialOwnerCatServiceImpl informationForPotentialOwnerCatService) {
+            InformationOfShelterServiceCat informationOfShelterServiceCat, InformationForPotentialOwnerCatServiceImpl informationForPotentialOwnerCatService,
+            ReportDogService reportDogService,
+            ReportCatService reportCatService) {
         this.commandsService = commandsService;
         this.userRepository = userRepository;
         this.userMessageCounterRepository = userMessageCounterRepository;
         this.informationOfShelterService = informationOfShelterService;
-
         this.messageHistoryRepository = messageHistoryRepository;
         this.informationForPotentialOwnerService = informationForPotentialOwnerService;
         this.userDogService = userDogService;
@@ -59,11 +63,21 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
         this.catCommandsService = catCommandsService;
         this.informationOfShelterServiceCat = informationOfShelterServiceCat;
         this.informationForPotentialOwnerCatService = informationForPotentialOwnerCatService;
+        this.reportDogService = reportDogService;
+        this.reportCatService = reportCatService;
     }
 
     @Override
     public SendMessage choiceOfShelter(Update update) {
-        if (update.message().text().equals("Приют для собак")
+        if (update.message().photo() != null &&
+                userRepository.findByChatIdEquals(update.message().chat().id()).getPet().equals("dog")) {
+            return reportDogService.savePhotoReportDog(update);
+        }
+        if (update.message().photo() != null &&
+                userRepository.findByChatIdEquals(update.message().chat().id()).getPet().equals("cat")) {
+            return reportCatService.savePhotoReportDog(update);
+        }
+        if (update.message() != null && update.message().text().equals("Приют для собак")
                 || update.message().text().equals("Приют для кошек")) {
             Message message = update.message();
             User user = getUser(message);
@@ -77,7 +91,7 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
             increaseUserMessageCounter(user.getId());
         }
 
-        if (update.message().text().equals("Другой приют")) {
+        if (update.message() != null && update.message().text().equals("Другой приют")) {
             return new SendMessage(update.message().chat().id(),
                     "Выбери пожалуйста приют").replyMarkup(Keyboards.CHOICE_OF_SHELTER_KEYBOARD);
         }
@@ -142,6 +156,10 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
             return informationForPotentialOwnerService.distribution(update);
         }
 
+        if (messageHistoryRepository.getEndMessage().equals("Прислать отчет о питомце")) {
+            return reportDogService.distribution(update);
+        }
+
         if (messageHistoryRepository.getEndMessage().equals("Оставить данные для связи")) {
             saveMessage(chatId, text);
             return informationOfShelterService.saveUserData(update, text);
@@ -190,6 +208,10 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
 
         if (messageHistoryRepository.getEndMessage().equals("Как взять кошку из приюта")) {
             return informationForPotentialOwnerCatService.distribution(update);
+        }
+
+        if (messageHistoryRepository.getEndMessage().equals("Прислать отчет о питомце")) {
+            return reportCatService.distribution(update);
         }
 
         if (messageHistoryRepository.getEndMessage().equals("Оставить данные для связи")) {

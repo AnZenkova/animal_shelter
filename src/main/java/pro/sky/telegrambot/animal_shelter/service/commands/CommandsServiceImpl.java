@@ -2,16 +2,11 @@ package pro.sky.telegrambot.animal_shelter.service.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.animal_shelter.constant.Keyboards;
-import pro.sky.telegrambot.animal_shelter.service.userDog.UserDogService;
 
 @Service
 public class CommandsServiceImpl implements CommandsService {
-
-    @Autowired
-    UserDogService userDogService;
 
     @Override
     public SendMessage start(Update update) {
@@ -41,9 +36,13 @@ public class CommandsServiceImpl implements CommandsService {
     @Override
     public SendMessage petReport(Update update) {
         String message = "Привет, " + update.message().from().firstName() +
-                "!\nЗдесь можно будет прислать отчет о питомце";
+                "!\nЯ жду от тебя отчет в следующем формате:" +
+                "\nРацион животного! Общее самочувствие и привыкание к новому месту!" +
+                "\nИзменение в поведении: отказ от старых привычек, приобретение новых!" +
+                "\nПожалуйста опиши всё максимально подробно и не забудь разделить эти три пункта восклицательным знаком, что бы я мог правильно тебя понять." +
+                "\nИ в следующем сообщении я жду от тебя фото животного";
 
-        return new SendMessage(update.message().chat().id(), message);
+        return new SendMessage(update.message().chat().id(), message).replyMarkup(Keyboards.REPORT_KEYBOARD);
     }
 
     @Override
@@ -54,7 +53,6 @@ public class CommandsServiceImpl implements CommandsService {
 
         return new SendMessage(update.message().chat().id(), message).replyMarkup(Keyboards.SHELTER_KEYBOARD);
     }
-
 
     @Override
     public SendMessage back(Update update) {
