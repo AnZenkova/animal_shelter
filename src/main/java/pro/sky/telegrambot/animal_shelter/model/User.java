@@ -44,4 +44,7 @@ public class User {
     @Column(name = "is_bot")
     private boolean isBot;
 
+    @Column(name = "pet")
+    private String pet;
+
 }

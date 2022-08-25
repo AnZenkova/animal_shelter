@@ -58,7 +58,7 @@ public class InformationForPotentialOwnerServiceImpl implements InformationForPo
     public SendMessage getListOfDocuments(Update update) {
         return new SendMessage(update.message().chat().id(),
                 "1. Паспорт.\n" +
-                        "2. Свидетельство о собственност жилого помещения / договор аренды жилья.\n" +
+                        "2. Свидетельство о собственности жилого помещения / договор аренды жилья.\n" +
                         "3. Информация о графике работы.")
                 .replyMarkup(Keyboards.ABOUT_HOW_TO_TAKE_ANIMAL_FROM_SHELTER);
     }

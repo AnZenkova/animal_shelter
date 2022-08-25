@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.animal_shelter.constant.Keyboards;
 
 @Service
-public class CommandsServiceImpl implements CommandsService {
-
+public class CatCommandsServiceImpl implements CommandsService {
     @Override
     public SendMessage start(Update update) {
         String message = "Привет, " + update.message().from().firstName() +
-                "!\nВыбери, пожалуйста, один из пунктов!";
+                "\nДобро пожаловать в приют для кошек!" +
+                "\nВыбери, пожалуйста, один из пунктов!";
 
         return new SendMessage(update.message().chat().id(), message)
                 .replyMarkup(Keyboards.SHELTER_KEYBOARD);
@@ -28,9 +28,9 @@ public class CommandsServiceImpl implements CommandsService {
     @Override
     public SendMessage howGetDogFromShelter(Update update) {
         String message = "Привет, " + update.message().from().firstName() +
-                "!\nЯ могу кое-что рассказать тебе о том как взять собаку из приюта! \nВыбери что бы ты хотел узнать";
+                "!\nЯ могу кое-что рассказать тебе о том как взять кошку из приюта! \nВыбери что бы ты хотел узнать";
 
-        return new SendMessage(update.message().chat().id(), message).replyMarkup(Keyboards.ABOUT_HOW_TO_TAKE_ANIMAL_FROM_SHELTER);
+        return new SendMessage(update.message().chat().id(), message).replyMarkup(Keyboards.ABOUT_HOW_TO_TAKE_CAT_FROM_SHELTER);
     }
 
     @Override
@@ -57,6 +57,6 @@ public class CommandsServiceImpl implements CommandsService {
     @Override
     public SendMessage back(Update update) {
         return new SendMessage(update.message().chat().id(), "Вы вернулись назад")
-                .replyMarkup(Keyboards.SHELTER_KEYBOARD);
+                .replyMarkup(Keyboards.SHELTER_KEYBOARD_CAT);
     }
 }

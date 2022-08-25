@@ -13,3 +13,13 @@ databaseChangeLog:
       file: liquibase/scripts/create_table_users_dog.sql
   - include:
       file: liquibase/scripts/create_table_users_cat.sql
+  - include:
+      file: liquibase/scripts/create_table_user_cat_communication_data.sql
+  - include:
+      file: liquibase/scripts/create_table_report_dog_text.sql
+  - include:
+      file: liquibase/scripts/create_table_report_dog_photo.sql
+  - include:
+      file: liquibase/scripts/create_table_report_cat_text.sql
+  - include:
+      file: liquibase/scripts/create_table_report_cat_photo.sql

@@ -10,8 +10,15 @@ public final class Keyboards {
 
     //Создание таблицы основного меню
     public static final Keyboard SHELTER_KEYBOARD = new ReplyKeyboardMarkup(
-            new String[]{"О приюте", "Как взять собаку из приюта", "Как взять кошку из приюта"},
-            new String[]{"Прислать отчет о питомце", "Позвать волонтёра"})
+            new String[]{"О приюте", "Как взять собаку из приюта"},
+            new String[]{"Другой приют", "Прислать отчет о питомце", "Позвать волонтёра"})
+            .oneTimeKeyboard(true)
+            .resizeKeyboard(true)
+            .selective(true);
+
+    public static final Keyboard SHELTER_KEYBOARD_CAT = new ReplyKeyboardMarkup(
+            new String[]{"О приюте", "Как взять кошку из приюта"},
+            new String[]{"Другой приют", "Прислать отчет о питомце", "Позвать волонтёра"})
             .oneTimeKeyboard(true)
             .resizeKeyboard(true)
             .selective(true);
@@ -33,4 +40,24 @@ public final class Keyboards {
             .resizeKeyboard(true)
             .selective(true);
 
+    public static final Keyboard ABOUT_HOW_TO_TAKE_CAT_FROM_SHELTER = new ReplyKeyboardMarkup(
+            new String[]{"Правила знакомства с кошкой", "Список документов", "О перевозке"},
+            new String[]{"Об-во дома для котенка", "Об-во для взрослой кошки", "Об-во для кошки с ограниченными возможностями"},
+            new String[]{"Причины об отказе", "Оставить данные для связи"},
+            new String[]{"Назад", "Позвать волонтёра"})
+            .oneTimeKeyboard(true)
+            .resizeKeyboard(true)
+            .selective(true);
+
+    public static final Keyboard REPORT_KEYBOARD = new ReplyKeyboardMarkup(
+            "Назад", "Форма отчета")
+            .oneTimeKeyboard(true)
+            .resizeKeyboard(true)
+            .selective(true);
+
+    public static final Keyboard CHOICE_OF_SHELTER_KEYBOARD = new ReplyKeyboardMarkup(
+            "Приют для кошек", "Приют для собак")
+            .oneTimeKeyboard(true)
+            .resizeKeyboard(true)
+            .selective(true);
 }

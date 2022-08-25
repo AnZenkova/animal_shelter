@@ -8,12 +8,13 @@ import com.pengrad.telegrambot.request.SendMessage;
  */
 public interface MessageHandlerService {
 
+    SendMessage choiceOfShelter(Update update);
+
     /**
      * Обработка сообщения пользователя
      *
      * @param update Объект сообщения чата
      */
     SendMessage handle(Update update);
-
 
 }
