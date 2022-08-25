@@ -4,6 +4,8 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.animal_shelter.constant.Keyboards;
@@ -28,6 +30,8 @@ import java.time.LocalDateTime;
 
 @Service
 public class MessageHandlerServiceImpl implements MessageHandlerService {
+
+    private final Logger logger = LoggerFactory.getLogger(MessageHandlerServiceImpl.class);
     private final CommandsServiceImpl commandsService;
     private final UserRepository userRepository;
     private final UserMessageCounterRepository userMessageCounterRepository;
@@ -69,6 +73,7 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
 
     @Override
     public SendMessage choiceOfShelter(Update update) {
+        logger.info("Был вызван метод с названием: {}", Thread.currentThread().getStackTrace()[1].getMethodName());
         if (update.message().photo() != null &&
                 userRepository.findByChatIdEquals(update.message().chat().id()).getPet().equals("dog")) {
             return reportDogService.savePhotoReportDog(update);
@@ -117,6 +122,7 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
 
     @SneakyThrows
     public SendMessage handle(Update update) {
+        logger.info("Был вызван метод с названием: {}", Thread.currentThread().getStackTrace()[1].getMethodName());
         Message message = update.message();
         User user = getUser(message);
         increaseUserMessageCounter(user.getId());
@@ -171,6 +177,7 @@ public class MessageHandlerServiceImpl implements MessageHandlerService {
 
     @SneakyThrows
     public SendMessage handleCAt(Update update) {
+        logger.info("Был вызван метод с названием: {}", Thread.currentThread().getStackTrace()[1].getMethodName());
         Message message = update.message();
         User user = getUser(message);
         increaseUserMessageCounter(user.getId());
