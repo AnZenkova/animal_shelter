@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = ReportCatText.TABLE_NAME)
@@ -30,10 +31,14 @@ public class ReportCatText {
     @Column(name = "userId")
     private Long userId;
 
-    public ReportCatText(String diet, String wellBeing, String changeInBehavior, Long userId) {
+    @Column(name = "date_time")
+    private LocalDateTime dateTime;
+
+    public ReportCatText(String diet, String wellBeing, String changeInBehavior, Long userId, LocalDateTime dateTime) {
         this.diet = diet;
         this.wellBeing = wellBeing;
         this.changeInBehavior = changeInBehavior;
         this.userId = userId;
+        this.dateTime = dateTime;
     }
 }

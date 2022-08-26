@@ -8,3 +8,6 @@ CREATE TABLE IF NOT EXISTS report_dog_text
     changeInBehavior text                              NOT NULL,
     user_id          BIGINT REFERENCES users_dogs (id) NOT NULL
 );
+
+ALTER TABLE report_dog_text
+    ADD COLUMN date_time timestamp;

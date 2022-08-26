@@ -15,6 +15,8 @@ import pro.sky.telegrambot.animal_shelter.repository.ReportCatTextRepository;
 import pro.sky.telegrambot.animal_shelter.repository.UserRepository;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class ReportCatService {
@@ -55,7 +57,9 @@ public class ReportCatService {
 
         User user = userRepository.findByChatIdEquals(chatId);
 
-        reportCatTextRepository.save(new ReportCatText(reports[0], reports[1], reports[2], user.getId()));
+        final LocalDateTime nowDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+
+        reportCatTextRepository.save(new ReportCatText(reports[0], reports[1], reports[2], user.getId(), nowDateTime));
 
         return new SendMessage(chatId, "Отчет успешно сохранён! Жду от тебя фото!");
     }
