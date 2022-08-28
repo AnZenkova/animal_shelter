@@ -2,13 +2,18 @@ package pro.sky.telegrambot.animal_shelter.service.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.animal_shelter.constant.Keyboards;
 
 @Service
 public class CatCommandsServiceImpl implements CommandsService {
+    private final Logger logger = LoggerFactory.getLogger(CatCommandsServiceImpl.class);
+
     @Override
     public SendMessage start(Update update) {
+        logger.info("Был вызван метод с названием: {}", Thread.currentThread().getStackTrace()[1].getMethodName());
         String message = "Привет, " + update.message().from().firstName() +
                 "\nДобро пожаловать в приют для кошек!" +
                 "\nВыбери, пожалуйста, один из пунктов!";
@@ -19,6 +24,7 @@ public class CatCommandsServiceImpl implements CommandsService {
 
     @Override
     public SendMessage aboutShelter(Update update) {
+        logger.info("Был вызван метод с названием: {}", Thread.currentThread().getStackTrace()[1].getMethodName());
         String message = "Привет, " + update.message().from().firstName() +
                 "!\nЯ могу кое-что рассказать тебе о нашем приюте! \nВыбери что бы ты хотел узнать";
 
@@ -27,6 +33,7 @@ public class CatCommandsServiceImpl implements CommandsService {
 
     @Override
     public SendMessage howGetDogFromShelter(Update update) {
+        logger.info("Был вызван метод с названием: {}", Thread.currentThread().getStackTrace()[1].getMethodName());
         String message = "Привет, " + update.message().from().firstName() +
                 "!\nЯ могу кое-что рассказать тебе о том как взять кошку из приюта! \nВыбери что бы ты хотел узнать";
 
@@ -35,6 +42,7 @@ public class CatCommandsServiceImpl implements CommandsService {
 
     @Override
     public SendMessage petReport(Update update) {
+        logger.info("Был вызван метод с названием: {}", Thread.currentThread().getStackTrace()[1].getMethodName());
         String message = "Привет, " + update.message().from().firstName() +
                 "!\nЯ жду от тебя отчет в следующем формате:" +
                 "\nРацион животного! Общее самочувствие и привыкание к новому месту!" +
@@ -47,6 +55,7 @@ public class CatCommandsServiceImpl implements CommandsService {
 
     @Override
     public SendMessage volunteerCall(Update update) {
+        logger.info("Был вызван метод с названием: {}", Thread.currentThread().getStackTrace()[1].getMethodName());
         String message = "Привет, " + update.message().from().username() +
                 "!\nВолонтёр ответит тебе в течении нескольких минут!\nПриносим свои извинения за ожидание!" +
                 "\nМожет быть я чем то ещё могу тебе помочь!?";
@@ -56,6 +65,7 @@ public class CatCommandsServiceImpl implements CommandsService {
 
     @Override
     public SendMessage back(Update update) {
+        logger.info("Был вызван метод с названием: {}", Thread.currentThread().getStackTrace()[1].getMethodName());
         return new SendMessage(update.message().chat().id(), "Вы вернулись назад")
                 .replyMarkup(Keyboards.SHELTER_KEYBOARD_CAT);
     }

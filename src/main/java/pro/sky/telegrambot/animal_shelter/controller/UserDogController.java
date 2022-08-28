@@ -22,7 +22,6 @@ public class UserDogController {
     @Autowired
     private UserDogService userDogService;
 
-
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
@@ -33,6 +32,7 @@ public class UserDogController {
                     )
             )
     })
+
     @GetMapping
     public UserDog getUserDogById(@Parameter(example = "1") @RequestParam(required = false, name = "Id пользователя") Long id) {
         return userDogService.getUserDogById(id);

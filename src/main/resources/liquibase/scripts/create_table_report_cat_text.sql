@@ -6,5 +6,9 @@ CREATE TABLE IF NOT EXISTS report_cat_text
     diet             text                              NOT NULL,
     wellBeing        text                              NOT NULL,
     changeInBehavior text                              NOT NULL,
-    user_id          BIGINT REFERENCES users_cats (id) NOT NULL
+    user_id          BIGINT REFERENCES users_cats (id) NOT NULL,
+    date_time        timestamp                         NOT NULL
 );
+
+ALTER TABLE report_dog_text
+    ADD COLUMN date_time timestamp;
